@@ -1,7 +1,8 @@
 const inquirer = require('inquirer');
+const generatePage = require('./src/page-template');
 
 const promptUser = () => {
-inquirer.prompt([
+return inquirer.prompt([
     {
         type: 'input',
         name: 'name',
@@ -57,11 +58,11 @@ inquirer.prompt([
   ])
 }
 
-const promptProject = porffolioData => {
+const promptProject = portfolioData => {
     console.log(``);
 
     if (!portfolioData.projects) {
-    porftolioData.projects = [];
+    portfolioData.projects = [];
     }
 
     return inquirer.prompt([
@@ -136,18 +137,16 @@ const promptProject = porffolioData => {
         }
     })
   };
+  
 promptUser()
     .then(promptProject)
-    .then(portfolioData => console.log(portfolioData)); 
+    .then(portfolioData => {
+        const pageHTML = generatePage(portfolioData);
+   
 
-// const fs = require('fs');
-// const generatePage = require("./src/page-template")
+    // fs.writeFile('index.html', pageHTML, err => {
+    //     if (err) throw new Error(err); 
 
-// const pageHTML = generatePage(name, github);
-
-
-// fs.writeFile('index.html', pageHTML, err => {
-//     if (err) throw err; 
-
-//     console.log('Portfolio complete! Check out index.html')
-// })
+    // console.log('Portfolio complete! Check out index.html')
+    // })
+}); 
