@@ -57,7 +57,7 @@ inquirer.prompt([
   ])
 }
 
-const promptProject = porffolioData => {
+const promptProject = portfolioData => {
     console.log(``);
 
     if (!portfolioData.projects) {
@@ -136,18 +136,24 @@ const promptProject = porffolioData => {
         }
     })
   };
+
 promptUser()
-    .then(promptProject)
-    .then(portfolioData => console.log(portfolioData)); 
+  .then(promptProject)
+  .then(portfolioData => {
+    return generatePage(portfolioData);
+  })
+  .then(pageHTML => {
+    return writeFile(pageHTML);
+  })
+  .then(writeFileResponse => {
+    console.log(writeFileResponse);
+    return copyFile();
+  })
+  .then(copyFileResponse => {
+    console.log(copyFileResponse);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
-// const fs = require('fs');
-// const generatePage = require("./src/page-template")
 
-// const pageHTML = generatePage(name, github);
-
-
-// fs.writeFile('index.html', pageHTML, err => {
-//     if (err) throw err; 
-
-//     console.log('Portfolio complete! Check out index.html')
-// })
